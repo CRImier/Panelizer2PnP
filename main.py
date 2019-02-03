@@ -124,9 +124,11 @@ def add_pos_for_gerber(pos_file_dels, cx, cy, angle, i):
         elif angle == 180:
             nx, ny = cx-x, cy-y
         rot = float(rot)+angle
-        while rot>360:
+        while rot>=360:
             rot = rot-360
-        output.append([ref, val, pkg, x, y, rot, side])
+        while rot<0:
+            rot = rot+360
+        output.append([ref, val, pkg, nx, ny, rot, side])
     return output
 
 gerber_instances = root.xpath(".//GerberInstance")
