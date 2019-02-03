@@ -144,7 +144,7 @@ for i, instance in enumerate(gerber_instances):
         if angle not in (0, 90, -90, 180):
             print("Can't process gerber file at {}, angle {} - unsupported angle".format(gerber_path, angle))
             continue
-        pos_output = add_pos_for_gerber(pos_file_els, cx, cx, angle, i+1)
+        pos_output = add_pos_for_gerber(pos_file_els, cx, cy, angle, i+1)
         pos_output_data += pos_output
     else:
         print("No .pos file found for {}, ignoring".format(gerber_path))
