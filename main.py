@@ -115,14 +115,14 @@ def add_pos_for_gerber(pos_file_dels, cx, cy, angle, i):
         x, y = float(x), float(y)
         if angle == 0:
             # 15-1, 50-3 => 15-1, 50-3
-            x, y = cx+x, cy+y
+            nx, ny = cx+x, cy+y
         elif angle == 90:
             # 15-1, 50-3 => 15+3, 50-1
-            x, y = cx-y, cy+x
+            nx, ny = cx-y, cy+x
         elif angle == -90:
-            x, y = cx+y, cy-x
+            nx, ny = cx+y, cy-x
         elif angle == 180:
-            x, y = cx-x, cy-y
+            nx, ny = cx-x, cy-y
         rot = float(rot)+angle
         while rot>360:
             rot = rot-360
