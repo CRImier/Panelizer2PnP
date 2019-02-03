@@ -123,6 +123,10 @@ def add_pos_for_gerber(pos_file_dels, cx, cy, angle, i):
             nx, ny = cx+y, cy-x
         elif angle == 180:
             nx, ny = cx-x, cy-y
+        else:
+            raise ValueError("wait what even is this angle? {}".format(angle))
+        #if ref.startswith("FID"):
+        #    #print("{}: {}:{}, {}:{} => {}:{}".format(ref, cx, cy, x, y, nx, ny))
         rot = float(rot)+angle
         while rot>=360:
             rot = rot-360
@@ -146,6 +150,7 @@ for i, instance in enumerate(gerber_instances):
         if angle not in (0, 90, -90, 180):
             print("Can't process gerber file at {}, angle {} - unsupported angle".format(gerber_path, angle))
             continue
+        #print("merging {}".format(pos_file))
         pos_output = add_pos_for_gerber(pos_file_els, cx, cy, angle, i+1)
         pos_output_data += pos_output
     else:
@@ -165,6 +170,7 @@ with open(output_file, 'w') as f:
     f.write("# Ref Val Package PosX PosY Rot Side\n")
     for data_entry in pos_output_data:
         els = [str(el) if not isinstance(el, float) else "{:.4f}".format(el) for el in data_entry]
+        #if els[0].startswith("FID"):
         f.write("     ".join(els)+"\n")
     f.write("## End")
 
