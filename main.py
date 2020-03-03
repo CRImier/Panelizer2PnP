@@ -7,7 +7,7 @@ try:
 except:
     import pip
     try:
-        pip.main(["install", "pip"])
+        pip.main(["install", "lxml"])
     except:
         print("Run the script as an administrator")
         sys.exit(1)
@@ -113,16 +113,21 @@ def add_pos_for_gerber(pos_file_dels, cx, cy, angle, i):
         ref, val, pkg, x, y, rot, side = els
         ref = "{}-{}".format(ref, i)
         x, y = float(x), float(y)
+        # Allows to disable the bottom flip if it gives you trouble for some reason
+        if not any([f.startswith("no_flip_x_bottom") for f in os.listdir('.')]):
+            mul = 1 if side == "top" else -1
+        else:
+            mul = 1
         if angle == 0:
             # 15-1, 50-3 => 15-1, 50-3
-            nx, ny = cx+x, cy+y
+            nx, ny = cx+x*mul, cy+y
         elif angle == 90:
             # 15-1, 50-3 => 15+3, 50-1
-            nx, ny = cx-y, cy+x
+            nx, ny = cx-y*mul, cy+x
         elif angle == -90:
-            nx, ny = cx+y, cy-x
+            nx, ny = cx+y*mul, cy-x
         elif angle == 180:
-            nx, ny = cx-x, cy-y
+            nx, ny = cx-x*mul, cy-y
         else:
             raise ValueError("wait what even is this angle? {}".format(angle))
         #if ref.startswith("FID"):
